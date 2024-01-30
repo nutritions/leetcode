@@ -58,9 +58,6 @@ int main(){
     }else{
         cout<<ans;
     }
-
-
-    cout<<"你好"<<endl;
     system("pause");
     return 0;
 }
