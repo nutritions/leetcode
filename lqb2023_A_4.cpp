@@ -27,7 +27,7 @@ void DFS(int pos,long long sum_w,int cut){//层数、总重量、切割次数
         ans=min(ans,cut);
         return;//当前DFS路径没有继续搜的必要了
     }
-    if(pos>=n||cut>=ans||sum_w>m){
+    if(pos>=n||cut>=ans||sum_w>m||sum_w+suf[pos]<m){
         return;
     }
     DFS(pos+1,sum_w+weight[pos],cut);
@@ -49,8 +49,8 @@ int main(){
         weight[i]*=2;
     }
     
-    //sort(weight,weight+n,greater<int>());
-    //for(int i=n-1;i>=0;i--) suf[i] = suf[i+1]+weight[i];
+    sort(weight,weight+n,greater<int>());//重量降序，更快剪枝
+    for(int i=n-1;i>=0;i--) suf[i] = suf[i+1]+weight[i];
     DFS(0,0,0);
     
     if(ans==0x3f3f3f3f){
@@ -60,7 +60,7 @@ int main(){
     }
 
 
-
-     system("pause");
-     return 0;
+    cout<<"你好"<<endl;
+    system("pause");
+    return 0;
 }
