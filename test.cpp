@@ -1,31 +1,69 @@
-#include<iostream>
-#include<map>
+// 结构体版
+#include <cstring>
+#include <iostream>
+#include <algorithm>
 using namespace std;
-typedef long long ll;
-const int N=1e5+5;
-ll n,m,x;
-int dp[N];    //a^b=x  a,b中早出现的数字位置
-map<ll,int> mp;
-int max(int a,int b){
-  return a>b?a:b;
+
+#define N 100005
+#define LL long long
+#define lc u<<1
+#define rc u<<1|1
+LL w[N];
+struct Tree{ //线段树
+  LL l,r,sum,add;
+}tr[N*4];
+
+void pushup(LL u){ //上传
+  tr[u].sum=tr[lc].sum+tr[rc].sum;
 }
-int main()
-{
-  ios_base::sync_with_stdio(0);
-  cin.tie(0);     //加速（很关键！）
-  cin>>n>>m>>x;
-  for(int i=1;i<=n;i++){
-    ll data;
-    cin>>data;
-    dp[i]=max(dp[i-1],mp[data^x]);    //mp存放另一个数的位置
-    //cout<<dp[i]<<endl;
-    mp[data]=i;
+void pushdown(LL u){ //下传
+  if(tr[u].add){
+    tr[lc].sum+=tr[u].add*(tr[lc].r-tr[lc].l+1),
+    tr[rc].sum+=tr[u].add*(tr[rc].r-tr[rc].l+1),
+    tr[lc].add+=tr[u].add,
+    tr[rc].add+=tr[u].add,
+    tr[u].add=0;      
   }
+}
+void build(LL u,LL l,LL r){ //建树
+  tr[u]={l,r,w[l],0};
+  if(l==r) return;
+  LL m=l+r>>1;
+  build(lc,l,m);
+  build(rc,m+1,r);
+  pushup(u);
+}
+void change(LL u,LL l,LL r,LL k){ //区修
+  if(l<=tr[u].l&&tr[u].r<=r){
+    tr[u].sum+=(tr[u].r-tr[u].l+1)*k;
+    tr[u].add+=k;
+    return;
+  }
+  LL m=tr[u].l+tr[u].r>>1;
+  pushdown(u);
+  if(l<=m) change(lc,l,r,k);
+  if(r>m) change(rc,l,r,k);
+  pushup(u);
+}
+LL query(LL u,LL l,LL r){ //区查
+  if(l<=tr[u].l && tr[u].r<=r) return tr[u].sum;
+  LL m=tr[u].l+tr[u].r>>1;
+  pushdown(u);
+  LL sum=0;
+  if(l<=m) sum+=query(lc,l,r);
+  if(r>m) sum+=query(rc,l,r);
+  return sum;
+}
+int main(){
+  int n,m,op,x,y,k;  
+  cin>>n>>m;
+  for(int i=1; i<=n; i ++) cin>>w[i];
+  
+  build(1,1,n);
   while(m--){
-    int l,r;
-    cin>>l>>r;
-    if(dp[r]>=l) cout<<"yes\n";
-    else cout<<"no\n";
+    cin>>op>>x>>y;
+    if(op==2)cout<<query(1,x,y)<<endl;
+    else cin>>k,change(1,x,y,k);
   }
   return 0;
 }
