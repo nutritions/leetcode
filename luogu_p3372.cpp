@@ -1,5 +1,5 @@
 /*
-![](https://www.luogu.com.cn/problem/P3372)
+https://www.luogu.com.cn/problem/P3372
 */
 
 //区间修改和查询：线段树
