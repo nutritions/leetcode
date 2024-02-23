@@ -1,5 +1,5 @@
 /*https://www.luogu.com.cn/problem/P3865*/
-
+//ST表求RMQ问题
 #include<iostream>
 #include<algorithm>
 #include<cmath>
