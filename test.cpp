@@ -2,17 +2,17 @@
 #include <string>
 #include <algorithm>
 using namespace std;
-// const int N=1e5;
-// int next[N];
+const int N=1e5;
+int next[N];
 
-// void getNext(string sub){
+void getNext(string sub){
 
-// }
+}
 
-// int KMP(string s,string sub){
+int KMP(string s,string sub){
 
-// return 0;
-// }
+return 0;
+}
 
 int main(){
   string s=" ";//主串
