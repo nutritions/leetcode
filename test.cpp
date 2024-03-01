@@ -36,6 +36,25 @@ int KMP(string s,string sub){
   }
 }
 
+int KMPcount(string s,string sub){
+  int i=1,j=1;//主串和模式串的指针
+  int count =0;
+  int slen=s.size()-1;
+  int sublen=sub.size()-1;
+  while(i<=slen){
+    if(j==0||s[i]==sub[j]){
+      i++;
+      j++;
+    }else{
+      j=_next[j];
+    }
+    if(j>sublen){
+      count++;
+      j=1;
+    }
+  }
+  return count;
+}
 int main(){
   string s=" ";//主串
   string sub=" ";//模式串
@@ -47,11 +66,7 @@ int main(){
   int slen=s.size()-1;
   int sublen=sub.size()-1;
   getNext(sub);
-  cout<<_next[1]<<endl;
-  cout<<sublen<<endl;
-  for(int i=1;i<=sublen;i++){
-      cout<<_next[i]<<" ";
-  }
   cout<<KMP(s,sub)<<endl;
+  cout<<KMPcount(s,sub)<<endl;
   return 0;
 }
